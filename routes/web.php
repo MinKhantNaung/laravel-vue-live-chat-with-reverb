@@ -16,5 +16,11 @@ Route::get('dashboard', function () {
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('/chat/{user}', function (User $user) {
+    return Inertia::render('Chat', [
+        'user' => $user
+    ]);
+})->middleware(['auth', 'verified'])->name('chat');
+
 require __DIR__.'/settings.php';
 require __DIR__.'/auth.php';

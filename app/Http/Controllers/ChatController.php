@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChatMessage\CreateChatMessageRequest;
 use App\Models\User;
 use App\Models\ChatMessage;
 use Inertia\Inertia;
@@ -26,5 +27,16 @@ final class ChatController extends Controller
             'user' => $user,
             'chatMessages' => $chatMessages
         ]);
+    }
+
+    public function sendMessage(User $receiver, CreateChatMessageRequest $request)
+    {
+        ChatMessage::create([
+            'sender_id' => auth()->id(),
+            'receiver_id' => $receiver->id,
+            'message' => $request->validated()['newMessage']
+        ]);
+
+        return back();
     }
 }

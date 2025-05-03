@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ChatComponent from '@/components/chat_page/ChatComponent.vue';
+import ChatComponent from '@/pages/components/ChatComponent.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/vue3';

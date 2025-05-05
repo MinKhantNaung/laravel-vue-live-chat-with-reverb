@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\ChatMessage\CreateChatMessageRequest;
 use App\Models\User;
-use App\Models\ChatMessage;
 use Inertia\Inertia;
+use App\Events\MessageSent;
+use App\Models\ChatMessage;
+use App\Http\Requests\ChatMessage\CreateChatMessageRequest;
 
 final class ChatController extends Controller
 {
@@ -31,11 +32,13 @@ final class ChatController extends Controller
 
     public function sendMessage(User $receiver, CreateChatMessageRequest $request)
     {
-        ChatMessage::create([
+        $chatMessage = ChatMessage::create([
             'sender_id' => auth()->id(),
             'receiver_id' => $receiver->id,
             'message' => $request->validated()['newMessage']
         ]);
+
+        broadcast(new MessageSent($chatMessage))->toOthers();
 
         return back();
     }

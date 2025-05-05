@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import InputError from "@/components/InputError.vue";
 import { useForm } from "@inertiajs/vue3";
+import { onMounted, ref } from "vue";
 
 const props = defineProps({
   friend: {
@@ -16,6 +17,15 @@ const props = defineProps({
     required: true,
   },
 });
+
+const chatMessages = ref([...props.chatMessages])
+
+onMounted(() => {
+    window.Echo.private(`chat.${props.currentUser.id}`)
+        .listen('MessageSent', (response: any) => {
+            chatMessages.value.push(response.chatMessage)
+        })
+})
 
 const form = useForm({
   newMessage: null,

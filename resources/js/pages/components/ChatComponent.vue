@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import InputError from "@/components/InputError.vue";
 import { useForm } from "@inertiajs/vue3";
-import { onMounted, ref } from "vue";
+import { nextTick, onMounted, reactive, ref, watch } from "vue";
 
 const props = defineProps({
   friend: {
@@ -18,14 +18,26 @@ const props = defineProps({
   },
 });
 
-const chatMessages = ref([...props.chatMessages])
+const messagesContainer = ref<HTMLDivElement | null>(null)
 
 onMounted(() => {
+    scrollToBottom()
+
     window.Echo.private(`chat.${props.currentUser.id}`)
         .listen('MessageSent', (response: any) => {
-            chatMessages.value.push(response.chatMessage)
+            props.chatMessages.push(response.chatMessage)
         })
 })
+
+watch(
+    () => props.chatMessages,
+    () => {
+        scrollToBottom()
+    }, {
+        immediate: true,
+        deep: true
+    }
+)
 
 const form = useForm({
   newMessage: null,
@@ -38,15 +50,26 @@ function sendMessage() {
     },
   });
 }
+
+function scrollToBottom() {
+  nextTick(() => {
+    if (messagesContainer.value) {
+      messagesContainer.value.scrollTo({
+        top: messagesContainer.value.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  });
+}
 </script>
 
 <template>
   <div>
     <div class="flex h-80 flex-col justify-end">
-      <div class="max-h-fit overflow-y-auto p-4">
+      <div ref="messagesContainer" class="max-h-fit overflow-y-auto p-4">
         <div
           v-for="message in chatMessages"
-          :key="message.id as number"
+          :key="message.id"
           class="mb-2 flex items-center"
         >
           <div

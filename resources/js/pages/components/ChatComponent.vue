@@ -21,42 +21,21 @@ const props = defineProps({
 const messagesContainer = ref<HTMLDivElement | null>(null)
 const isFriendTyping = ref(false)
 
-onMounted(() => {
-    scrollToBottom()
-
-    window.Echo.private(`chat.${props.currentUser.id}`)
-        .listen('MessageSent', (response: any) => {
-            props.chatMessages.push(response.chatMessage)
-        })
-        .listenForWhisper('typing', (response: any) => {
-            console.log(response.userId === props.friend.id)
-            isFriendTyping.value = response.userId === props.friend.id
-        })
-})
-
-watch(
-    () => props.chatMessages,
-    () => {
-        scrollToBottom()
-    }, {
-        immediate: true,
-        deep: true
-    }
-)
-
 const form = useForm({
   newMessage: null,
 });
 
-function sendMessage() {
-  form.post(route("chat.send", props.friend), {
-    onSuccess: () => {
-      form.reset();
-    },
-  });
+const sendMessage = () => {
+    form.post(route("chat.send", props.friend), {
+        preserveState: true,
+        replace: true,
+        onSuccess: () => {
+        form.reset();
+        },
+    });
 }
 
-function scrollToBottom() {
+const scrollToBottom = () => {
   nextTick(() => {
     if (messagesContainer.value) {
       messagesContainer.value.scrollTo({
@@ -73,6 +52,28 @@ const sendTypingEvent = () => {
             userId: props.currentUser.id
         })
 }
+
+onMounted(() => {
+    scrollToBottom()
+
+    window.Echo.private(`chat.${props.currentUser.id}`)
+        .listen('MessageSent', (response: any) => {
+            props.chatMessages.push(response.chatMessage)
+        })
+        .listenForWhisper('typing', (response: any) => {
+            isFriendTyping.value = response.userId === props.friend.id
+        })
+})
+
+watch(
+    () => props.chatMessages,
+    () => {
+        scrollToBottom()
+    }, {
+        immediate: true,
+        deep: true
+    }
+)
 </script>
 
 <template>

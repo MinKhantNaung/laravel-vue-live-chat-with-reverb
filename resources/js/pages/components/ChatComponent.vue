@@ -20,6 +20,7 @@ const props = defineProps({
 
 const messagesContainer = ref<HTMLDivElement | null>(null)
 const isFriendTyping = ref(false)
+const friendTypingTimer = ref<number | null>(null)
 
 const form = useForm({
   newMessage: null,
@@ -62,6 +63,14 @@ onMounted(() => {
         })
         .listenForWhisper('typing', (response: any) => {
             isFriendTyping.value = response.userId === props.friend.id
+
+            if (friendTypingTimer.value) {
+                clearTimeout(friendTypingTimer.value)
+            }
+
+            friendTypingTimer.value = setTimeout(() => {
+                isFriendTyping.value = false
+            }, 1000);
         })
 })
 

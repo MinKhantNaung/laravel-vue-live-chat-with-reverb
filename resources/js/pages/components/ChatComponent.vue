@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import InputError from "@/components/InputError.vue";
 import { useForm } from "@inertiajs/vue3";
-import { nextTick, onMounted, reactive, ref, watch } from "vue";
+import { nextTick, onMounted, ref, watch } from "vue";
 
 const props = defineProps({
   friend: {
@@ -19,6 +19,7 @@ const props = defineProps({
 });
 
 const messagesContainer = ref<HTMLDivElement | null>(null)
+const isFriendTyping = ref(false)
 
 onMounted(() => {
     scrollToBottom()
@@ -26,6 +27,10 @@ onMounted(() => {
     window.Echo.private(`chat.${props.currentUser.id}`)
         .listen('MessageSent', (response: any) => {
             props.chatMessages.push(response.chatMessage)
+        })
+        .listenForWhisper('typing', (response: any) => {
+            console.log(response.userId === props.friend.id)
+            isFriendTyping.value = response.userId === props.friend.id
         })
 })
 
@@ -61,6 +66,13 @@ function scrollToBottom() {
     }
   });
 }
+
+const sendTypingEvent = () => {
+    window.Echo.private(`chat.${props.friend.id}`)
+        .whisper('typing', {
+            userId: props.currentUser.id
+        })
+}
 </script>
 
 <template>
@@ -89,6 +101,7 @@ function scrollToBottom() {
         <div class="flex w-full flex-col">
           <input
             v-model="form.newMessage"
+            @keydown="sendTypingEvent"
             type="text"
             placeholder="Type a message..."
             :class="[
@@ -107,5 +120,6 @@ function scrollToBottom() {
         </button>
       </form>
     </div>
+    <small v-if="isFriendTyping" class="text-gray-700">{{ friend.name }} is typing...</small>
   </div>
 </template>

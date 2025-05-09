@@ -66,6 +66,17 @@ composer run dev
 php artisan reverb:start
 ```
 
+## Screenshots 
+![Sample UI](screenshots/sample_ui.png)
+
+## 📅 Future Development
+
+I am planning to develop a **simple community group chat app** for my website [animefeverzone.com](https://animefeverzone.com). This app will allow users to join and create community-based chat groups related to anime discussions.
+
+**Mockup for the community group chat (example image):**
+
+![Community Group Chat UI](screenshots/community_chat.png)
+
 ## 📚 Related Projects / Credits
 
 This project was inspired by or built upon the following open-source repository:

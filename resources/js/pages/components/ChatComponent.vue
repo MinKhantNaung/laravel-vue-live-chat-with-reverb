@@ -29,7 +29,6 @@ const form = useForm({
 const sendMessage = () => {
   form.post(route("chat.send", props.friend), {
     preserveState: true,
-    replace: true,
     onSuccess: () => {
       form.reset();
     },

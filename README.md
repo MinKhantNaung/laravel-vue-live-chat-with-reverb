@@ -2,6 +2,24 @@
 
 A real-time chat application that allows users to send and receive messages instantly, with additional real-time features like typing indicators and whisper messages.
 
+### 🚀 Live Demo
+
+You can try the deployed version of the Real-Time Chat Application here:
+
+🔗 **[Live Demo – chat-demo.animefeverzone.com](https://chat-demo.animefeverzone.com)**
+
+### 🧪 Test Accounts
+
+You can use the following demo accounts to try out the chat features:
+
+- **Email:** `min@gmail.com`  
+  **Password:** `password`
+
+- **Email:** `naung@gmail.com`  
+  **Password:** `password`
+
+> 💬 Please use these accounts respectfully. Messages sent here may be visible to other visitors. This demo is for testing and learning purposes only.
+
 ## 🚀 Features
 
 - 🔒 User authentication and session handling

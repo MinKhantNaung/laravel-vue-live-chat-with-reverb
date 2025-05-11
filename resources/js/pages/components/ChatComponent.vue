@@ -18,23 +18,23 @@ const props = defineProps({
   },
 });
 
-const messagesContainer = ref<HTMLDivElement | null>(null)
-const isFriendTyping = ref(false)
-const friendTypingTimer = ref<number | null>(null)
+const messagesContainer = ref<HTMLDivElement | null>(null);
+const isFriendTyping = ref(false);
+const friendTypingTimer = ref<number | null>(null);
 
 const form = useForm({
   newMessage: null,
 });
 
 const sendMessage = () => {
-    form.post(route("chat.send", props.friend), {
-        preserveState: true,
-        replace: true,
-        onSuccess: () => {
-        form.reset();
-        },
-    });
-}
+  form.post(route("chat.send", props.friend), {
+    preserveState: true,
+    replace: true,
+    onSuccess: () => {
+      form.reset();
+    },
+  });
+};
 
 const scrollToBottom = () => {
   nextTick(() => {
@@ -45,44 +45,44 @@ const scrollToBottom = () => {
       });
     }
   });
-}
+};
 
 const sendTypingEvent = () => {
-    window.Echo.private(`chat.${props.friend.id}`)
-        .whisper('typing', {
-            userId: props.currentUser.id
-        })
-}
+  window.Echo.private(`chat.${props.friend.id}`).whisper("typing", {
+    userId: props.currentUser.id,
+  });
+};
 
 onMounted(() => {
-    scrollToBottom()
+  scrollToBottom();
 
-    window.Echo.private(`chat.${props.currentUser.id}`)
-        .listen('MessageSent', (response: any) => {
-            props.chatMessages.push(response.chatMessage)
-        })
-        .listenForWhisper('typing', (response: any) => {
-            isFriendTyping.value = response.userId === props.friend.id
+  window.Echo.private(`chat.${props.currentUser.id}`)
+    .listen("MessageSent", (response: any) => {
+      props.chatMessages.push(response.chatMessage);
+    })
+    .listenForWhisper("typing", (response: any) => {
+      isFriendTyping.value = response.userId === props.friend.id;
 
-            if (friendTypingTimer.value) {
-                clearTimeout(friendTypingTimer.value)
-            }
+      if (friendTypingTimer.value) {
+        clearTimeout(friendTypingTimer.value);
+      }
 
-            friendTypingTimer.value = setTimeout(() => {
-                isFriendTyping.value = false
-            }, 1000);
-        })
-})
+      friendTypingTimer.value = setTimeout(() => {
+        isFriendTyping.value = false;
+      }, 1000);
+    });
+});
 
 watch(
-    () => props.chatMessages,
-    () => {
-        scrollToBottom()
-    }, {
-        immediate: true,
-        deep: true
-    }
-)
+  () => props.chatMessages,
+  () => {
+    scrollToBottom();
+  },
+  {
+    immediate: true,
+    deep: true,
+  }
+);
 </script>
 
 <template>
@@ -130,6 +130,8 @@ watch(
         </button>
       </form>
     </div>
-    <small v-if="isFriendTyping" class="text-gray-700">{{ friend.name }} is typing...</small>
+    <small v-if="isFriendTyping" class="text-gray-700"
+      >{{ friend.name }} is typing...</small
+    >
   </div>
 </template>

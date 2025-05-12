@@ -3,7 +3,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link } from '@inertiajs/vue3';
 
-defineProps({ users: Array });
+defineProps<{ users: { id: number; name: string; email: string }[] }>();
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

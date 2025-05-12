@@ -23,6 +23,7 @@ const breadcrumbs: BreadcrumbItem[] = [
           :href="route('chat', user)"
           v-for="user in users"
           :key="user.id"
+          prefetch="mount"
           class="border-sidebar-border/70 dark:border-sidebar-border relative flex aspect-video cursor-pointer flex-col items-center justify-center overflow-hidden rounded-xl border"
         >
           <h3>{{ user.name }}</h3>

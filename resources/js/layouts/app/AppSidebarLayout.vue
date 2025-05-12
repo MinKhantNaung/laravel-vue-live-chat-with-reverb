@@ -7,10 +7,12 @@ import type { BreadcrumbItemType } from '@/types';
 
 interface Props {
     breadcrumbs?: BreadcrumbItemType[];
+    friend?: object | null;
 }
 
 withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
+    friend: null
 });
 </script>
 
@@ -18,7 +20,7 @@ withDefaults(defineProps<Props>(), {
     <AppShell variant="sidebar">
         <AppSidebar />
         <AppContent variant="sidebar">
-            <AppSidebarHeader :breadcrumbs="breadcrumbs" />
+            <AppSidebarHeader :breadcrumbs="breadcrumbs" :friend="friend" />
             <slot />
         </AppContent>
     </AppShell>

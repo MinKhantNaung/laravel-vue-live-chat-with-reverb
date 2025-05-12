@@ -13,7 +13,7 @@ Route::get('dashboard', function () {
     $users = User::whereNot('id', auth()->id())->get();
 
     return Inertia::render('Dashboard', [
-        'users' => $users
+        'users' => Inertia::defer(fn () => $users)
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 

@@ -51,35 +51,45 @@ cd laravel-vue-live-chat-with-reverb
 composer install
 ```
 
-3. **Generate application key**
+3. Copy .env.example to .env  
 ```bash
-php artisan key:generate
+cp .env.example .env
 ```
 
 4. **Edit your .env file to match your database and app configuration**
 nano .env  # or edit manually
 
-5. **Run database migrations**
+5. **Generate application key**
+```bash
+php artisan key:generate
+```
+
+6. **Run database migrations**
 ```bash
 php artisan migrate
 ```
 
-6. **Install JavaScript dependencies**
+7. **You need to install Reverb. So, Reverb secret keys will be added in .env** 
+```bash
+php artisan reverb:install
+``` 
+
+7. **Install JavaScript dependencies**
 ```bash
 npm install
 ```
 
-7. **Build front-end assets**
+8. **Build front-end assets**
 ```bash
 npm run build
 ```
 
-8. **Start Laravel's local development server, queue worker, and Vite development server (Laravel 12+)**
+9. **Start Laravel's local development server, queue worker, and Vite development server (Laravel 12+)**
 ```bash
 composer run dev
 ```
 
-9. **Start the Reverb server**
+10. **Start the Reverb server**
 ```bash
 php artisan reverb:start
 ```

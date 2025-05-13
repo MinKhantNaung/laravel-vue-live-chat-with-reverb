@@ -1,6 +1,6 @@
 # Real-Time Chat Application
 
-A real-time chat application that allows users to send and receive messages instantly, with additional real-time features like typing indicators and whisper messages.
+A real-time chat app that allows users to send and receive messages instantly, with typing indicators, whisper messages, and real-time notifications when the receiver is not in chat with the sender.
 
 ### 🚀 Live Demo
 
@@ -15,17 +15,21 @@ You can use the following demo accounts to try out the chat features:
 - **Email:** `min@gmail.com`  
   **Password:** `password`
 
-- **Email:** `naung@gmail.com`  
+- **Email:** `khant@gmail.com`  
   **Password:** `password`
+
+- **Email:** `naung@gmail.com`  
+  **Password:** `password` 
 
 > 💬 Please use these accounts respectfully. Messages sent here may be visible to other visitors. This demo is for testing and learning purposes only.
 
 ## 🚀 Features
 
-- 🔒 User authentication and session handling
-- 💬 One-to-one real-time messaging
-- ✍️ Typing indicator to show when a user is typing
-- 🤫 Whisper messages (private inline messages)
+- 🔒 User authentication and session handling  
+- 💬 One-to-one real-time messaging  
+- ✍️ Typing indicator to show when a user is typing  
+- 🤫 Whisper messages (private inline messages)  
+- 🔔 Real-time message notifications when the receiver is not in the chat  
 - ⚡ Instant updates using broadcasting
 
 ## 📦 Tech Stack (VILT)

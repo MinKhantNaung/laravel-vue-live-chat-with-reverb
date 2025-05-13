@@ -27,7 +27,7 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 const options: PluginOptions = {
     position: POSITION.TOP_CENTER,
-    timeout: 5000,
+    timeout: 3000,
     closeOnClick: true,
     pauseOnFocusLoss: true,
     pauseOnHover: true,

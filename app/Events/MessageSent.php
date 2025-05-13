@@ -19,7 +19,7 @@ class MessageSent implements ShouldBroadcastNow
     protected ChatMessage $chatMessage;
 
     public function __construct(ChatMessage $chatMessage) {
-        $this->chatMessage = $chatMessage;
+        $this->chatMessage = $chatMessage->load('sender');
     }
 
     public function broadcastWith(): array

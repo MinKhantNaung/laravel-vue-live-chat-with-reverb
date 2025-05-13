@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import InputError from "@/components/InputError.vue";
 import { useForm } from "@inertiajs/vue3";
-import { nextTick, onMounted, ref, watch } from "vue";
+import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { useToast } from "vue-toastification";
+
+const toast = useToast();
 
 const props = defineProps({
   friend: {
@@ -57,7 +60,13 @@ onMounted(() => {
 
   window.Echo.private(`chat.${props.currentUser.id}`)
     .listen("MessageSent", (response: any) => {
-      props.chatMessages.push(response.chatMessage);
+      const incomingMessage = response.chatMessage;
+
+      if (props.friend && props.friend.id === incomingMessage.sender_id) {
+        props.chatMessages.push(incomingMessage);
+      } else {
+        toast.info(`${incomingMessage.sender.name}: ${incomingMessage.message}`);
+      }
     })
     .listenForWhisper("typing", (response: any) => {
       isFriendTyping.value = response.userId === props.friend.id;
@@ -70,6 +79,10 @@ onMounted(() => {
         isFriendTyping.value = false;
       }, 1000);
     });
+});
+
+onUnmounted(() => {
+  window.Echo.private(`chat.${props.currentUser.id}`).stopListening("MessageSent");
 });
 
 watch(

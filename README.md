@@ -101,6 +101,8 @@ php artisan reverb:start
 ## Screenshots 
 ![Sample UI](screenshots/sample_ui.png)
 
+![Sample Noti](screenshots/sample_noti.png)
+
 ## 📅 Future Development
 
 I am planning to develop a **simple community group chat app** for my website [animefeverzone.com](https://animefeverzone.com). This app will allow users to join and create community-based chat groups related to anime discussions.

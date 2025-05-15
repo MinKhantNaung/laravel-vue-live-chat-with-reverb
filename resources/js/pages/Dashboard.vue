@@ -1,12 +1,18 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link } from '@inertiajs/vue3';
+import { Head, Link, usePage } from '@inertiajs/vue3';
 import Pagination from '@/components/Pagination.vue';
+import { onMounted, onUnmounted } from 'vue';
+import { useToast } from "vue-toastification";
+import type { SharedData } from '@/types';
+
+const toast = useToast();
+const page = usePage<SharedData>()
 
 defineProps({
     users: Object
-})
+});
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -14,6 +20,18 @@ const breadcrumbs: BreadcrumbItem[] = [
         href: '/dashboard',
     },
 ];
+
+onMounted(() => {
+    window.Echo.private(`chat.${page.props.auth.user.id}`)
+    .listen("MessageSent", (response: any) => {
+        const incomingMessage = response.chatMessage;
+        toast.info(`${incomingMessage.sender.name}: ${incomingMessage.message}`);
+    })
+})
+
+onUnmounted(() => {
+    window.Echo.private(`chat.${page.props.auth.user.id}`).stopListening("MessageSent");
+})
 </script>
 
 <template>

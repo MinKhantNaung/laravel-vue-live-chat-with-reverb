@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import InputError from "@/components/InputError.vue";
 import { useForm } from "@inertiajs/vue3";
-import { nextTick, onMounted, onUnmounted, ref, watch } from "vue";
+import { nextTick, onMounted, onUnmounted, ref, toRefs, watch } from "vue";
 import { useToast } from "vue-toastification";
 
 const toast = useToast();
@@ -21,6 +21,8 @@ const props = defineProps({
   },
 });
 
+const { friend, currentUser, chatMessages } = toRefs(props);
+
 const messagesContainer = ref<HTMLDivElement | null>(null);
 const isFriendTyping = ref(false);
 const friendTypingTimer = ref<number | null>(null);
@@ -30,7 +32,7 @@ const form = useForm({
 });
 
 const sendMessage = () => {
-  form.post(route("chat.send", props.friend), {
+  form.post(route("chat.send", friend.value), {
     preserveState: true,
     onSuccess: () => {
       form.reset();
@@ -50,26 +52,26 @@ const scrollToBottom = () => {
 };
 
 const sendTypingEvent = () => {
-  window.Echo.private(`chat.${props.friend.id}`).whisper("typing", {
-    userId: props.currentUser.id,
+  window.Echo.private(`chat.${friend.value.id}`).whisper("typing", {
+    userId: currentUser.value.id,
   });
 };
 
 onMounted(() => {
   scrollToBottom();
 
-  window.Echo.private(`chat.${props.currentUser.id}`)
+  window.Echo.private(`chat.${currentUser.value.id}`)
     .listen("MessageSent", (response: any) => {
       const incomingMessage = response.chatMessage;
 
-      if (props.friend && props.friend.id === incomingMessage.sender_id) {
-        props.chatMessages.push(incomingMessage);
+      if (friend.value && friend.value.id === incomingMessage.sender_id) {
+        chatMessages.value.push(incomingMessage);
       } else {
         toast.info(`${incomingMessage.sender.name}: ${incomingMessage.message}`);
       }
     })
     .listenForWhisper("typing", (response: any) => {
-      isFriendTyping.value = response.userId === props.friend.id;
+      isFriendTyping.value = response.userId === friend.value.id;
 
       if (friendTypingTimer.value) {
         clearTimeout(friendTypingTimer.value);
@@ -82,11 +84,11 @@ onMounted(() => {
 });
 
 onUnmounted(() => {
-  window.Echo.private(`chat.${props.currentUser.id}`).stopListening("MessageSent");
+  window.Echo.private(`chat.${currentUser.value.id}`).stopListening("MessageSent");
 });
 
 watch(
-  () => props.chatMessages,
+  () => chatMessages.value,
   () => {
     scrollToBottom();
   },

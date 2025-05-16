@@ -23,10 +23,10 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 onMounted(() => {
     window.Echo.private(`chat.${page.props.auth.user.id}`)
-    .listen("MessageSent", (response: any) => {
-        const incomingMessage = response.chatMessage;
-        toast.info(`${incomingMessage.sender.name}: ${incomingMessage.message}`);
-    })
+        .listen("MessageSent", (response: any) => {
+            const incomingMessage = response.chatMessage;
+            toast.info(`${incomingMessage.sender.name}: ${incomingMessage.message}`);
+        })
 })
 
 onUnmounted(() => {

@@ -9,6 +9,7 @@ import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 import Toast, { PluginOptions, POSITION  } from "vue-toastification";
 import "vue-toastification/dist/index.css";
+import { createPinia } from 'pinia'
 
 // Extend ImportMeta interface for Vite...
 declare module 'vite/client' {
@@ -40,6 +41,8 @@ const options: PluginOptions = {
     rtl: false
 };
 
+const pinia = createPinia();
+
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./pages/${name}.vue`, import.meta.glob<DefineComponent>('./pages/**/*.vue')),
@@ -48,6 +51,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(Toast, options)
+            .use(pinia)
             .mount(el);
     },
     progress: {

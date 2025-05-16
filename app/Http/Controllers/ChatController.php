@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Events\MessageSent;
 use App\Models\ChatMessage;
 use App\Http\Requests\ChatMessage\CreateChatMessageRequest;
+use Illuminate\Support\Facades\Auth;
 
 final class ChatController extends Controller
 {
@@ -14,12 +15,12 @@ final class ChatController extends Controller
     {
         $chatMessages = ChatMessage::query()
             ->where(function ($query) use ($user) {
-                $query->where('sender_id', auth()->id())
+                $query->where('sender_id', Auth::id())
                     ->where('receiver_id', $user->id);
             })
             ->orWhere(function ($query) use ($user) {
                 $query->where('sender_id', $user->id)
-                    ->where('receiver_id', auth()->id());
+                    ->where('receiver_id', Auth::id());
             })
             ->orderBy('id')
             ->get();
@@ -33,7 +34,7 @@ final class ChatController extends Controller
     public function sendMessage(User $receiver, CreateChatMessageRequest $request)
     {
         $chatMessage = ChatMessage::create([
-            'sender_id' => auth()->id(),
+            'sender_id' => Auth::id(),
             'receiver_id' => $receiver->id,
             'message' => $request->validated()['newMessage']
         ]);

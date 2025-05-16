@@ -1,25 +1,19 @@
 <script setup lang="ts">
-import ChatComponent from '@/pages/components/ChatComponent.vue';
-import AppLayout from '@/layouts/AppLayout.vue';
-import { type BreadcrumbItem } from '@/types';
-import { Head } from '@inertiajs/vue3';
+import ChatComponent from "@/pages/components/ChatComponent.vue";
+import AppLayout from "@/layouts/AppLayout.vue";
+import type { BreadcrumbItem, User } from "@/types";
+import { Head } from "@inertiajs/vue3";
 
-defineProps({
-    user: {
-        type: Object,
-        required: true,
-    },
-    chatMessages: {
-        type: Array as () => { id: number; sender_id: number; message: string; }[],
-        required: true,
-    },
-});
+defineProps<{
+  user: User;
+  chatMessages: { id: number; sender_id: number; message: string }[];
+}>();
 
 const breadcrumbs: BreadcrumbItem[] = [
-    {
-        title: 'Dashboard',
-        href: '/dashboard',
-    },
+  {
+    title: "Dashboard",
+    href: "/dashboard",
+  },
 ];
 </script>
 

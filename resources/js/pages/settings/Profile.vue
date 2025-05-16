@@ -10,6 +10,8 @@ import { Label } from '@/components/ui/label';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { type BreadcrumbItem, type SharedData, type User } from '@/types';
+import { useOnlinePresenceStore } from '@/stores/onlinePresence';
+import { onMounted, onUnmounted } from 'vue';
 
 interface Props {
     mustVerifyEmail: boolean;
@@ -26,6 +28,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const page = usePage<SharedData>();
+const onlinePresenceStore = useOnlinePresenceStore();
 const user = page.props.auth.user as User;
 
 const form = useForm({
@@ -38,6 +41,9 @@ const submit = () => {
         preserveScroll: true,
     });
 };
+
+onMounted(() => onlinePresenceStore.joinPresence())
+onUnmounted(() => onlinePresenceStore.leavePresence())
 </script>
 
 <template>

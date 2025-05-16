@@ -7,6 +7,8 @@ import { type BreadcrumbItem } from '@/types';
 
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
+import { useOnlinePresenceStore } from '@/stores/onlinePresence';
+import { onMounted, onUnmounted } from 'vue';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
@@ -14,6 +16,11 @@ const breadcrumbItems: BreadcrumbItem[] = [
         href: '/settings/appearance',
     },
 ];
+
+const onlinePresenceStore = useOnlinePresenceStore()
+
+onMounted(() => onlinePresenceStore.joinPresence())
+onUnmounted(() => onlinePresenceStore.leavePresence())
 </script>
 
 <template>

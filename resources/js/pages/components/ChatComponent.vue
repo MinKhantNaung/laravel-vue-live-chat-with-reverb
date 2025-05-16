@@ -110,11 +110,11 @@ watch(
         >
           <div
             v-if="message.sender_id === currentUser.id"
-            class="ml-auto rounded-lg bg-blue-500 p-2 text-white"
+            class="ml-auto rounded-lg bg-blue-500 p-2 text-white wrap-anywhere"
           >
             {{ message.message }}
           </div>
-          <div v-else class="mr-auto rounded-lg bg-gray-200 p-2">
+          <div v-else class="mr-auto rounded-lg bg-gray-200 p-2 wrap-anywhere">
             {{ message.message }}
           </div>
         </div>

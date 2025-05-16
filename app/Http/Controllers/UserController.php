@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Inertia\Inertia;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
 
-final class DashboardController extends Controller
+class UserController extends Controller
 {
     public function __invoke()
     {
@@ -14,7 +14,7 @@ final class DashboardController extends Controller
             ->whereNot('id', Auth::id())
             ->paginate(6);
 
-        return Inertia::render('Dashboard', [
+        return Inertia::render('Users', [
             'users' => $users
         ]);
     }

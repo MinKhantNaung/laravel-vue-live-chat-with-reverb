@@ -7,10 +7,12 @@ withDefaults(
   defineProps<{
     breadcrumbs?: BreadcrumbItemType[];
     friend?: User | null;
+    onlineUserIds?: Set<number>;
   }>(),
   {
     breadcrumbs: () => [],
     friend: null,
+    onlineUserIds: () => new Set<number>()
   }
 );
 </script>
@@ -25,7 +27,12 @@ withDefaults(
         <Breadcrumbs :breadcrumbs="breadcrumbs" />
       </template>
     </div>
-    <div v-if="friend">
+    <div v-if="friend" class="flex items-center gap-2">
+      <span
+        class="h-2 w-2 rounded-full"
+        :class="onlineUserIds.has(friend.id) ? 'bg-green-500' : 'bg-gray-400'"
+        title="Status"
+      />
       {{ friend.name }}
     </div>
   </header>

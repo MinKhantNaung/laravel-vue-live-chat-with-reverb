@@ -115,7 +115,10 @@ watch(
           >
             {{ message.message }}
           </div>
-          <div v-else class="mr-auto rounded-lg bg-gray-200 p-2 wrap-anywhere">
+          <div
+            v-else
+            class="mr-auto rounded-lg bg-gray-200 dark:bg-gray-700 text-gray-900 dark:text-gray-100 p-2 wrap-anywhere"
+          >
             {{ message.message }}
           </div>
         </div>

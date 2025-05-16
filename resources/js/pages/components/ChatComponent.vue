@@ -33,6 +33,7 @@ const form = useForm({
 
 const sendMessage = () => {
   form.post(route("chat.send", friend.value), {
+    async: true,
     preserveState: true,
     onSuccess: () => {
       form.reset();

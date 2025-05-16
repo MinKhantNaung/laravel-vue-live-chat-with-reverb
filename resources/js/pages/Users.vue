@@ -3,18 +3,14 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/vue3';
 import Pagination from '@/components/Pagination.vue';
-import { onMounted, onUnmounted, ref } from 'vue';
+import { onMounted, onUnmounted } from 'vue';
 import { useToast } from "vue-toastification";
 import type { SharedData } from '@/types';
-
-const toast = useToast();
-const page = usePage<SharedData>()
+import { useOnlinePresenceStore } from '@/stores/onlinePresence';
 
 defineProps({
     users: Object
-});
-
-const onlineUserIds = ref(new Set<number>());
+});;
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -23,6 +19,10 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+const toast = useToast();
+const page = usePage<SharedData>();
+const onlinePresenceStore = useOnlinePresenceStore();
+
 onMounted(() => {
     window.Echo.private(`chat.${page.props.auth.user.id}`)
         .listen("MessageSent", (response: any) => {
@@ -30,23 +30,12 @@ onMounted(() => {
             toast.info(`${incomingMessage.sender.name}: ${incomingMessage.message}`);
         })
 
-    window.Echo.join('online-users')
-        .here((users: { id: number }[]) => {
-            onlineUserIds.value = new Set(users.map(u => u.id));
-        })
-        .joining((user: { id: number }) => {
-            onlineUserIds.value.add(user.id);
-            console.log(onlineUserIds.value)
-        })
-        .leaving((user: { id: number }) => {
-            onlineUserIds.value.delete(user.id);
-            console.log(onlineUserIds.value)
-        });
+    onlinePresenceStore.joinPresence();
 })
 
 onUnmounted(() => {
     window.Echo.private(`chat.${page.props.auth?.user?.id}`).stopListening("MessageSent");
-    window.Echo.leave('online-users');
+    onlinePresenceStore.leavePresence();
 })
 </script>
 
@@ -65,7 +54,11 @@ onUnmounted(() => {
         <p>{{ user.email }}</p>
         <span
           class="absolute top-2 right-2 h-3 w-3 rounded-full"
-          :class="onlineUserIds.has(user.id) ? 'bg-green-500' : 'bg-gray-400'"
+          :class="
+            onlinePresenceStore.onlineUserIds.has(user.id)
+              ? 'bg-green-500'
+              : 'bg-gray-400'
+          "
           title="Status"
         />
       </Link>

@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import ChatComponent from "@/pages/components/ChatComponent.vue";
 import AppLayout from "@/layouts/AppLayout.vue";
-import type { BreadcrumbItem, User } from "@/types";
-import { Head } from "@inertiajs/vue3";
+import type { BreadcrumbItem, SharedData, User } from "@/types";
+import { Head, usePage } from "@inertiajs/vue3";
+
+const page = usePage<SharedData>();
 
 defineProps<{
   user: User;
@@ -24,7 +26,7 @@ const breadcrumbs: BreadcrumbItem[] = [
     <div class="flex h-full flex-1 flex-col gap-4 rounded-xl p-4">
       <ChatComponent
         :friend="user"
-        :currentUser="$page.props.auth.user"
+        :currentUser="page.props.auth.user"
         :chatMessages="chatMessages"
       />
     </div>

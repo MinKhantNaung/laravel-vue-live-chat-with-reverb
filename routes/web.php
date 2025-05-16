@@ -11,12 +11,16 @@ Route::get('/', function () {
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/dashboard', DashboardController::class)->name('dashboard');
-    Route::get('/users', UserController::class)->name('users');
+    Route::get('/dashboard', DashboardController::class)
+        ->name('dashboard');
+    Route::get('/users', UserController::class)
+        ->name('users');
 
     Route::prefix('/chat')->group(function () {
-        Route::get('/{user}', [ChatController::class, 'chatPage'])->name('chat');
-        Route::post('/{receiver}', [ChatController::class, 'sendMessage'])->name('chat.send');
+        Route::get('/{user}', [ChatController::class, 'chatPage'])
+            ->name('chat');
+        Route::post('/{receiver}', [ChatController::class, 'sendMessage'])
+            ->name('chat.send');
     });
 });
 

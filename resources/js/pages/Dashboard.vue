@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
+import { useOnlinePresenceStore } from '@/stores/onlinePresence';
 import { SharedData, type BreadcrumbItem } from '@/types';
 import { Head, usePage } from '@inertiajs/vue3';
 import type { ChartData } from 'chart.js';
@@ -17,6 +18,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, PointElement, Filler);
 
 const page = usePage<SharedData>();
+const onlinePresenceStore = useOnlinePresenceStore();
 const currentUser = ref(page.props.auth.user);
 
 const labels = ref<string[]>([]);
@@ -88,7 +90,7 @@ setTimeout(() => {
 
     setInterval(() => {
         updateChart();
-    }, 60_000)
+    }, 60_000);
 }, msUntilNextMinute());
 
 onMounted(() => {
@@ -97,10 +99,13 @@ onMounted(() => {
     window.Echo.private(`chat.${currentUser.value.id}`).listen('MessageSent', () => {
         messageCount.value++;
     });
+
+    onlinePresenceStore.joinPresence();
 });
 
 onUnmounted(() => {
     window.Echo.private(`chat.${currentUser.value.id}`).stopListening('MessageSent');
+    onlinePresenceStore.leavePresence();
 });
 </script>
 

@@ -113,8 +113,17 @@ onUnmounted(() => {
     <Head title="Dashboard" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="h-64">
-            <Line ref="chartRef" :data="chartData" :options="chartOptions" />
+        <div class="space-y-4">
+            <!-- Info Message -->
+            <div
+                class="rounded-md border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800 dark:border-blue-700 dark:bg-blue-900 dark:text-blue-100"
+            >
+                This chart displays the number of messages received per minute. It updates automatically every minute.
+            </div>
+
+            <div class="h-64">
+                <Line ref="chartRef" :data="chartData" :options="chartOptions" />
+            </div>
         </div>
     </AppLayout>
 </template>

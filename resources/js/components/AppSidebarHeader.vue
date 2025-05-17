@@ -33,6 +33,9 @@ withDefaults(
         :class="onlineUserIds.has(friend.id) ? 'bg-green-500' : 'bg-gray-400'"
         title="Status"
       />
+      <span :class="onlineUserIds.has(friend.id) ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'">
+            {{ onlineUserIds.has(friend.id) ? 'Online' : 'Offline' }}
+      </span>
       {{ friend.name }}
     </div>
   </header>

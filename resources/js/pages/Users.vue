@@ -52,15 +52,15 @@ onUnmounted(() => {
       >
         <h3>{{ user.name }}</h3>
         <p>{{ user.email }}</p>
-        <span
-          class="absolute top-2 right-2 h-3 w-3 rounded-full"
-          :class="
-            onlinePresenceStore.onlineUserIds.has(user.id)
-              ? 'bg-green-500'
-              : 'bg-gray-400'
-          "
-          title="Status"
-        />
+        <div class="absolute top-2 right-2 flex items-center gap-1 text-xs font-medium">
+            <span
+            class="h-2 w-2 rounded-full"
+            :class="onlinePresenceStore.onlineUserIds.has(user.id) ? 'bg-green-500' : 'bg-gray-400'"
+            />
+            <span :class="onlinePresenceStore.onlineUserIds.has(user.id) ? 'text-green-600 dark:text-green-400' : 'text-gray-500 dark:text-gray-400'">
+                {{ onlinePresenceStore.onlineUserIds.has(user.id) ? 'Online' : 'Offline' }}
+            </span>
+        </div>
       </Link>
     </div>
 

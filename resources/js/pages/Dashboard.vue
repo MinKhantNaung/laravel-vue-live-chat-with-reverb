@@ -15,8 +15,6 @@ const breadcrumbs: BreadcrumbItem[] = [
     <Head title="Dashboard" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
-        <div class="grid h-full auto-rows-min gap-4 rounded-xl p-4 md:grid-cols-3">
-            This dashboard page is under development.
-        </div>
+        <div class="grid h-full auto-rows-min gap-4 rounded-xl p-4 md:grid-cols-3">This dashboard page is under development.</div>
     </AppLayout>
 </template>

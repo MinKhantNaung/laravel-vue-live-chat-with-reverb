@@ -17,10 +17,10 @@ const breadcrumbItems: BreadcrumbItem[] = [
     },
 ];
 
-const onlinePresenceStore = useOnlinePresenceStore()
+const onlinePresenceStore = useOnlinePresenceStore();
 
-onMounted(() => onlinePresenceStore.joinPresence())
-onUnmounted(() => onlinePresenceStore.leavePresence())
+onMounted(() => onlinePresenceStore.joinPresence());
+onUnmounted(() => onlinePresenceStore.leavePresence());
 </script>
 
 <template>

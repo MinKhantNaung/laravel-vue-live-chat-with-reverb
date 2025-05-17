@@ -9,8 +9,8 @@ import HeadingSmall from '@/components/HeadingSmall.vue';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { type BreadcrumbItem } from '@/types';
 import { useOnlinePresenceStore } from '@/stores/onlinePresence';
+import { type BreadcrumbItem } from '@/types';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
@@ -51,8 +51,8 @@ const updatePassword = () => {
     });
 };
 
-onMounted(() => onlinePresenceStore.joinPresence())
-onUnmounted(() => onlinePresenceStore.leavePresence())
+onMounted(() => onlinePresenceStore.joinPresence());
+onUnmounted(() => onlinePresenceStore.leavePresence());
 </script>
 
 <template>

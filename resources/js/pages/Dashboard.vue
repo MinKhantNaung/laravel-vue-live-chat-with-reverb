@@ -6,6 +6,7 @@ import { Head, usePage } from '@inertiajs/vue3';
 import { CategoryScale, Chart as ChartJS, Filler, Legend, LinearScale, LineElement, PointElement, Title, Tooltip } from 'chart.js';
 import { onMounted, onUnmounted, ref } from 'vue';
 import { Line } from 'vue-chartjs';
+import { useToast } from 'vue-toastification';
 import { useMessageLineChart } from './composables/MessageLineChart';
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -20,6 +21,7 @@ ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale
 const { messageCount, chartData, chartOptions, startChartInterval } = useMessageLineChart();
 
 const page = usePage<SharedData>();
+const toast = useToast();
 const onlinePresenceStore = useOnlinePresenceStore();
 const currentUser = ref(page.props.auth.user);
 
@@ -28,8 +30,10 @@ onMounted(() => {
 
     if (!currentUser.value) return;
 
-    window.Echo.private(`chat.${currentUser.value.id}`).listen('MessageSent', () => {
+    window.Echo.private(`chat.${currentUser.value.id}`).listen('MessageSent', (response: any) => {
         messageCount.value++;
+        const incomingMessage = response.chatMessage;
+        toast.info(`${incomingMessage.sender.name}: ${incomingMessage.message}`);
     });
 
     onlinePresenceStore.joinPresence();

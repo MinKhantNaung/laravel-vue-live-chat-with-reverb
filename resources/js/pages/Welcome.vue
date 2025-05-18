@@ -33,6 +33,13 @@ import { Head, Link } from '@inertiajs/vue3';
                 </template>
             </nav>
         </header>
+
+        <div
+            class="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-800 dark:border-red-700 dark:bg-red-900 dark:text-red-100 mb-8"
+        >
+            This website is for testing and chat demonstration purposes only. All messages will be automatically deleted at midnight (Myanmar time).
+        </div>
+
         <div class="flex w-full items-center justify-center opacity-100 transition-opacity duration-750 lg:grow starting:opacity-0">
             <main class="flex w-full max-w-[335px] flex-col-reverse overflow-hidden rounded-lg lg:max-w-4xl lg:flex-row">
                 <div

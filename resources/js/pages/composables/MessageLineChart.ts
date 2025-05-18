@@ -1,4 +1,4 @@
-import { defaultChartData, defaultChartOptions } from './../charts/messageLineChartConfig';
+import { defaultChartData, defaultChartOptions } from '../charts/messageLineChartConfig';
 import { ref } from "vue";
 
 export function useMessageLineChart() {

@@ -7,7 +7,7 @@ import { CategoryScale, Chart as ChartJS, Filler, Legend, LinearScale, LineEleme
 import { onMounted, onUnmounted, ref } from 'vue';
 import { Line } from 'vue-chartjs';
 import { useToast } from 'vue-toastification';
-import { useMessageLineChart } from './composables/MessageLineChart';
+import { useMessageLineChart } from './composables/messageLineChart';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {

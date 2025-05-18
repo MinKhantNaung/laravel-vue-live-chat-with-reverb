@@ -51,9 +51,7 @@ onUnmounted(() => {
     <AppLayout :breadcrumbs="breadcrumbs">
         <div class="space-y-4">
             <!-- Info Message -->
-            <div
-                class="rounded-md border border-blue-200 bg-blue-50 p-3 text-sm text-blue-800 dark:border-blue-700 dark:bg-blue-900 dark:text-blue-100"
-            >
+            <div class="rounded-md border border-red-200 bg-red-50 p-3 text-sm text-red-800 dark:border-red-700 dark:bg-red-900 dark:text-red-100">
                 This chart displays the number of messages received per minute. It updates automatically every minute.
             </div>
 

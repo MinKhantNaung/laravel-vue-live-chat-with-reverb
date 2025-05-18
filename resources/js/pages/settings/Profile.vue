@@ -12,6 +12,7 @@ import SettingsLayout from '@/layouts/settings/Layout.vue';
 import { useOnlinePresenceStore } from '@/stores/onlinePresence';
 import { type BreadcrumbItem, type SharedData, type User } from '@/types';
 import { onMounted, onUnmounted } from 'vue';
+import { useToast } from 'vue-toastification';
 
 interface Props {
     mustVerifyEmail: boolean;
@@ -28,6 +29,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 const page = usePage<SharedData>();
+const toast = useToast();
 const onlinePresenceStore = useOnlinePresenceStore();
 const user = page.props.auth.user as User;
 
@@ -42,8 +44,18 @@ const submit = () => {
     });
 };
 
-onMounted(() => onlinePresenceStore.joinPresence());
-onUnmounted(() => onlinePresenceStore.leavePresence());
+onMounted(() => {
+    window.Echo.private(`chat.${page.props.auth.user.id}`).listen('MessageSent', (response: any) => {
+        const incomingMessage = response.chatMessage;
+        toast.info(`${incomingMessage.sender.name}: ${incomingMessage.message}`);
+    });
+
+    onlinePresenceStore.joinPresence();
+});
+onUnmounted(() => {
+    window.Echo.private(`chat.${page.props.auth.user.id}`).stopListening('MessageSent');
+    onlinePresenceStore.leavePresence();
+});
 </script>
 
 <template>

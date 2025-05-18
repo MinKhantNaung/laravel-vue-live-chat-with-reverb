@@ -2,7 +2,7 @@
 import InputError from '@/components/InputError.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import SettingsLayout from '@/layouts/settings/Layout.vue';
-import { Head, useForm } from '@inertiajs/vue3';
+import { Head, useForm, usePage } from '@inertiajs/vue3';
 import { onMounted, onUnmounted, ref } from 'vue';
 
 import HeadingSmall from '@/components/HeadingSmall.vue';
@@ -10,7 +10,8 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useOnlinePresenceStore } from '@/stores/onlinePresence';
-import { type BreadcrumbItem } from '@/types';
+import { SharedData, type BreadcrumbItem } from '@/types';
+import { useToast } from 'vue-toastification';
 
 const breadcrumbItems: BreadcrumbItem[] = [
     {
@@ -20,6 +21,8 @@ const breadcrumbItems: BreadcrumbItem[] = [
 ];
 
 const onlinePresenceStore = useOnlinePresenceStore();
+const page = usePage<SharedData>();
+const toast = useToast();
 const passwordInput = ref<HTMLInputElement | null>(null);
 const currentPasswordInput = ref<HTMLInputElement | null>(null);
 
@@ -51,8 +54,18 @@ const updatePassword = () => {
     });
 };
 
-onMounted(() => onlinePresenceStore.joinPresence());
-onUnmounted(() => onlinePresenceStore.leavePresence());
+onMounted(() => {
+    window.Echo.private(`chat.${page.props.auth.user.id}`).listen('MessageSent', (response: any) => {
+        const incomingMessage = response.chatMessage;
+        toast.info(`${incomingMessage.sender.name}: ${incomingMessage.message}`);
+    });
+
+    onlinePresenceStore.joinPresence();
+});
+onUnmounted(() => {
+    window.Echo.private(`chat.${page.props.auth.user.id}`).stopListening('MessageSent');
+    onlinePresenceStore.leavePresence();
+});
 </script>
 
 <template>

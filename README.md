@@ -1,6 +1,7 @@
 # Real-Time Chat Application
 
-A real-time chat app that allows users to send and receive messages instantly, with typing indicators, whisper messages, and real-time notifications when the receiver is not in chat with the sender.
+A real-time chat app that allows users to send and receive messages instantly, with typing indicators, whisper messages, real-time notifications when the receiver is not in chat with the sender, online/offline showing, and a real-time chart that shows messages received per minute.
+
 
 ### 🚀 Live Demo
 
@@ -21,7 +22,8 @@ You can use the following demo accounts to try out the chat features:
 - **Email:** `naung@gmail.com`  
   **Password:** `password` 
 
-> 💬 Please use these accounts respectfully. Messages sent here may be visible to other visitors. This demo is for testing and learning purposes only.
+> 💬 Please use these accounts respectfully. Messages sent here may be visible to other visitors. This demo is for testing and learning purposes only.  
+> 🕛 All messages will be automatically deleted at midnight (MMT – Myanmar Time) daily.
 
 ## 🚀 Features
 
@@ -30,12 +32,16 @@ You can use the following demo accounts to try out the chat features:
 - ✍️ Typing indicator to show when a user is typing  
 - 🤫 Whisper messages (private inline messages)  
 - 🔔 Real-time message notifications when the receiver is not in the chat  
-- ⚡ Instant updates using broadcasting
+- ⚡ Instant updates using broadcasting  
+- 🙋‍♂️ Profile management  
+- 🌗 Light mode / Dark mode toggle  
+- 🟢 Online / Offline status indicators  
+- 📊 Real-time chart showing messages received per minute
 
 ## 📦 Tech Stack (VILT)
 
 - **Backend:** PHP (Laravel 12)
-- **Frontend:** Vue.js, Inertia, Typescript, Tailwind (UI)
+- **Frontend:** Vue.js, Typescript, JavaScript, Tailwind v4(UI)
 - **Real-time:** Laravel Echo + Reverb (a Pusher alternative)
 - **Database:** MySQL
 
@@ -98,10 +104,24 @@ composer run dev
 php artisan reverb:start
 ```
 
-## Screenshots 
-![Sample UI](screenshots/sample_ui.png)
+## 📸 Screenshots
 
-![Sample Noti](screenshots/sample_noti.png)
+### 🧑‍💼 Profile Management  
+![Profile Management](screenshots/dark_mode.png)
+
+### 🟢 Online/Offline Status Showing  
+![Online/Offline Status](screenshots/online_offline.png)
+
+### 📊 Real-Time Chart (Messages per Minute)  
+![Real-Time Chart](screenshots/realtime_chart.png)
+
+### 🔔 Notification When User Is Not in Chat  
+![Notification](screenshots/sample_noti.png)
+
+### 💬 Sample Chat Room  
+![Chat Room](screenshots/sample_ui.png)
+
+
 
 ## 📅 Future Development
 

@@ -1,11 +1,13 @@
 <script setup lang="ts">
 import Pagination from '@/components/Pagination.vue';
+import Input from '@/components/ui/input/Input.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { useOnlinePresenceStore } from '@/stores/onlinePresence';
 import type { SharedData } from '@/types';
 import { type BreadcrumbItem } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/vue3';
-import { onMounted, onUnmounted } from 'vue';
+import { Head, Link, router, usePage } from '@inertiajs/vue3';
+import { debounce } from 'lodash';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { useToast } from 'vue-toastification';
 
 defineProps({
@@ -22,6 +24,23 @@ const breadcrumbs: BreadcrumbItem[] = [
 const toast = useToast();
 const page = usePage<SharedData>();
 const onlinePresenceStore = useOnlinePresenceStore();
+const filterUserName = ref<string>('');
+
+watch(
+    filterUserName,
+    debounce(function (filterNameValue) {
+        router.get(
+            route('users'),
+            {
+                name: filterNameValue,
+            },
+            {
+                preserveScroll: true,
+                preserveState: true,
+            },
+        );
+    }, 300),
+);
 
 onMounted(() => {
     window.Echo.private(`chat.${page.props.auth.user.id}`).listen('MessageSent', (response: any) => {
@@ -42,6 +61,10 @@ onUnmounted(() => {
     <Head title="Users" />
 
     <AppLayout :breadcrumbs="breadcrumbs">
+        <div class="m-4">
+            <Input v-model="filterUserName" type="text" placeholder="Type to search users..." />
+        </div>
+
         <div class="grid h-full auto-rows-min gap-4 rounded-xl p-4 md:grid-cols-3">
             <Link
                 :href="route('chat', user)"

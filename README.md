@@ -99,9 +99,14 @@ npm run build
 composer run dev
 ```
 
-10. **Start the Reverb server**
+10. **In another terminal, start the Reverb server**
 ```bash
 php artisan reverb:start
+```
+
+11. **In another terminal, start the queue worker:**
+```bash
+php artisan queue:work
 ```
 
 ## 📸 Screenshots
